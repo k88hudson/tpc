@@ -1,8 +1,14 @@
+require('colors');
 var wd = require('wd');
-var colors = require('colors');
-var _ = require('lodash');
 var chai = require('chai');
 var chaiAsPromised = require('chai-as-promised');
+var argv = require('minimist')(process.argv.slice(2));
+var _ = require('lodash');
+// Check username
+if (!process.env.SAUCE_USERNAME || !process.env.SAUCE_ACCESS_KEY) {
+  console.log('\nERROR: Hey! you need to add SAUCE_USERNAME and SAUCE_ACCESS_KEY to your environment to run these tests.\n'.red);
+  process.exit(1);
+}
 
 chai.use(chaiAsPromised);
 chai.should();
@@ -19,12 +25,12 @@ wd.configureHttp( {
 });
 
 // building desired capability
-var browserKey = process.env.BROWSER || 'chrome';
+var browserKey = argv.browser || 'chrome';
 var desired = DESIREDS[browserKey];
 desired.name = 'example with ' + browserKey;
 desired.tags = ['tutorial'];
 
-describe('   mocha spec examples (' + desired.browserName + ')', function() {
+describe('Basic smoke tests (' + desired.browserName + ')', function() {
   this.timeout(60000);
   var browser;
   var allPassed = true;
@@ -32,7 +38,7 @@ describe('   mocha spec examples (' + desired.browserName + ')', function() {
   before(function(done) {
     var username = process.env.SAUCE_USERNAME;
     var accessKey = process.env.SAUCE_ACCESS_KEY;
-    browser = wd.promiseChainRemote("ondemand.saucelabs.com", 80, username, accessKey);
+    browser = wd.promiseChainRemote('ondemand.saucelabs.com', 80, username, accessKey);
     if(process.env.VERBOSE){
       // optional logging
       browser.on('status', function(info) {
@@ -42,6 +48,17 @@ describe('   mocha spec examples (' + desired.browserName + ')', function() {
         console.log(' > ' + meth.yellow, path.grey, data || '');
       });
     }
+
+    // browser.on('status', function(info) {
+    //   console.log(info.cyan);
+    // });
+    // browser.on('command', function(eventType, command, response) {
+    //   console.log(' > ' + eventType.cyan, command, (response || '').grey);
+    // });
+    // browser.on('http', function(meth, path, data) {
+    //   console.log(' > ' + meth.magenta, path, (data || '').grey);
+    // });
+
     browser
       .init(desired)
       .nodeify(done);
@@ -64,6 +81,15 @@ describe('   mocha spec examples (' + desired.browserName + ')', function() {
       .get('http://localhost:4000')
       .title()
       .should.become('Your New Jekyll Site')
+      .nodeify(done);
+  });
+  it('should get a post and navigate back to home', function(done) {
+    browser
+      .get('http://localhost:4000/jekyll/update/2015/03/05/welcome-to-jekyll.html')
+      .waitForElementByCss('a[href="/"]')
+      .click()
+      .eval('document.title')
+      .should.eventually.equal('Your New Jekyll Site')
       .nodeify(done);
   });
 

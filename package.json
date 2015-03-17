@@ -7,7 +7,9 @@
     "test": "tests"
   },
   "scripts": {
-    "test": "BROWSER='chrome' mocha --reporter spec tests/*"
+    "start": "jekyll serve",
+    "sauce": "mocha --reporter spec tests/*",
+    "test": "parallelshell 'npm run sauce -- --browser=chrome' 'npm run sauce -- --browser=firefox' 'npm run sauce -- --browser=explorer' && echo 'All done. Check out screen shots at https://saucelabs.com/tests'"
   },
   "repository": {
     "type": "git",
@@ -20,11 +22,14 @@
   },
   "homepage": "https://github.com/k88hudson/tpc",
   "devDependencies": {
-    "wd": "^0.3.11",
+    "chai": "~1.8.1",
     "chai-as-promised": "~4.1.0",
     "colors": "~0.6.2",
-    "q": "~0.9.7",
     "lodash": "~2.4.1",
-    "chai": "~1.8.1"
+    "minimist": "^1.1.1",
+    "mocha-parallel": "^0.1.0",
+    "parallelshell": "^1.1.1",
+    "q": "~0.9.7",
+    "wd": "^0.3.11"
   }
 }
