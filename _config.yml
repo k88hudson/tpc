@@ -3,10 +3,12 @@ markdown: redcarpet
 pygments: true
 prose:
   ignore:
+    - .gitignore
     - _config.yml
     - Gemfile
     - Gemfile.lock
     - index.html
     - /_layouts
+    - /_plugins
     - /contact
     - /css
