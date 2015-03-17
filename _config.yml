@@ -1,3 +1,12 @@
 name: Your New Jekyll Site
 markdown: redcarpet
 pygments: true
+prose:
+  ignore:
+    - _config.yml
+    - Gemfile
+    - Gemfile.lock
+    - index.html
+    - /_layouts
+    - /contact
+    - /css
