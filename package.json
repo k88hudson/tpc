@@ -1,0 +1,30 @@
+{
+  "name": "tpc",
+  "version": "0.0.0",
+  "description": "",
+  "main": "desireds.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "BROWSER='chrome' mocha --reporter spec tests/*"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/k88hudson/tpc.git"
+  },
+  "author": "",
+  "license": "MPL-2.0",
+  "bugs": {
+    "url": "https://github.com/k88hudson/tpc/issues"
+  },
+  "homepage": "https://github.com/k88hudson/tpc",
+  "devDependencies": {
+    "wd": "^0.3.11",
+    "chai-as-promised": "~4.1.0",
+    "colors": "~0.6.2",
+    "q": "~0.9.7",
+    "lodash": "~2.4.1",
+    "chai": "~1.8.1"
+  }
+}
