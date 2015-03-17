@@ -2,6 +2,7 @@ name: Your New Jekyll Site
 markdown: redcarpet
 pygments: true
 prose:
+  rooturl: '_posts'
   ignore:
     - .gitignore
     - _config.yml
@@ -10,5 +11,6 @@ prose:
     - index.html
     - /_layouts
     - /_plugins
+    - /_includes
     - /contact
     - /css
